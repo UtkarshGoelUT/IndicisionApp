@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --watch",
     "dev-server": "webpack-dev-server",
-    "build:prod": "webpack -p --env production",
+    "build": "webpack -p --env production",
     "postbuild": "yarn run build:prod",
     "start": "node server/server.js"
   },
