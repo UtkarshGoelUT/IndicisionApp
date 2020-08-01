@@ -1,14 +1,17 @@
 const { NamedModulesPlugin } = require("webpack");
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 
-module.exports = {
+module.exports = (env) => ({
     entry: "./src/app.js",
     output: {
-        path: path.join(__dirname, 'public'),
+        path: path.join(__dirname, 'public', 'dist'),
         filename: 'bundle.js'
     },
+    plugins: [new MiniCssExtractPlugin({
+        filename: '[name].css'
+    })],
     module: {
         rules: [
             {
@@ -18,12 +21,12 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             }
-        ]
+        ],
     },
     devServer: {
-        contentBase: path.join(__dirname, 'public')
+        contentBase: path.join(__dirname, 'public', 'dist')
     },
-    devtool: 'cheap-module-eval-source-map'
-};
+    devtool: env === 'production' ? 'source-map' : 'cheap-module-eval-source-map'
+});
